@@ -1,0 +1,49 @@
+<%- include('../components/header.ejs') %>
+    <div class="container">
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <h3>Formulario de Mascota</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <form method="post" action="">
+                    <div class="mb-2">
+                        <label for="nombre">Nombre</label>
+                        <input class="form-control" type="text" name="nombre" placeholder="Ingrese su nombre"
+                            value="<%= mascota?.nombre %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="persona">Dueño</label>
+                        <select class="form-select" name="persona_id">
+                            <% personas.forEach(persona=> { %>
+                                <option value="<%= persona.id %>"
+                                    <%= mascota?.persona?.id == persona.id ? 'selected' : '' %>>
+                                    <%= persona.nombre %> <%= persona.apellido %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="tipo">Tipo</label>
+                        <select class="form-select" name="tipo">
+                            <option value="0" <%=mascota?.getDataValue('tipo')=='0' ? 'selected' : '' %>>Perro
+                            </option>
+                            <option value="1" <%=mascota?.getDataValue('tipo')=='1' ? 'selected' : '' %>>Gato
+                            </option>
+                            <option value="2" <%=mascota?.getDataValue('tipo')=='2' ? 'selected' : '' %>>Loro
+                            </option>
+                            <option value="3" <%=mascota?.getDataValue('tipo')=='3' ? 'selected' : '' %>>Capibara
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <input class="btn btn-primary" type="submit" value="Enviar" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../components/footer.ejs') %>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <form method="post" action="/result">
+                    <input class="form-control" type="text" name="nombre" placeholder="Ingrese su nombre" />
+                    <input class="form-control" type="text" name="apellido" placeholder="Ingrese su apellido" />
+                    <input class="form-control" type="text" name="ciudad" placeholder="Ingrese su ciudad" />
+                    <input class="form-control" type="number" name="edad" placeholder="Ingrese su edad" />
+                    <input class="form-control" type="date" name="fechaNacimiento" placeholder="Ingrese su fecha de Nacimiento" />
+                    <select class="form-select" name="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <input class="btn btn-primary" type="submit" value="Enviar" />
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<%- include('../components/header.ejs') %>
+    <div class="container">
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <h3>Formulario de Persona</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <form method="post" action="">
+                    <div class="mb-2">
+                        <label for="nombre">Nombre</label>
+                        <input class="form-control" type="text" name="nombre" placeholder="Ingrese su nombre"
+                            value="<%= persona?.nombre %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="apellido">Apellido</label>
+                        <input class="form-control" type="text" name="apellido" placeholder="Ingrese su apellido"
+                            value="<%= persona?.apellido %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="edad">Edad</label>
+                        <input class="form-control" type="number" name="edad" placeholder="Ingrese su edad"
+                            value="<%= persona?.edad %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="text" name="email" placeholder="Ingrese su email"
+                            value="<%= persona?.email %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="telefono">Teléfono</label>
+                        <input class="form-control" type="text" name="telefono" placeholder="Ingrese su teléfono"
+                            value="<%= persona?.telefono %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input class="form-control" type="date" name="fechaNacimiento"
+                            placeholder="Ingrese su fecha de Nacimiento" value="<%= fechaConvertida %>" />
+                    </div>
+                    <div class="mb-2">
+                        <label for="genero">Género</label>
+                        <select class="form-select" name="genero">
+                            <option value="1" <%=persona?.getDataValue('genero')=='1' ? 'selected' : '' %>>Masculino
+                            </option>
+                            <option value="0" <%=persona?.getDataValue('genero')=='0' ? 'selected' : '' %>>Femenino
+                            </option>
+                            <option value="-1" <%=persona?.getDataValue('genero')=='-1' ? 'selected' : '' %>>Indefinido
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <input class="btn btn-primary" type="submit" value="Enviar" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../components/footer.ejs') %>

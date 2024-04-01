@@ -1,0 +1,78 @@
+<%- include('../components/header.ejs') %>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-12">
+                <h3>Lista de Personas</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Género</th>
+                            <th>Mascotas</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% personas.forEach(persona=> { %>
+                            <tr>
+                                <td>
+                                    <%= persona.id %>
+                                </td>
+                                <td>
+                                    <%= persona.nombre %>
+                                </td>
+                                <td>
+                                    <%= persona.apellido %>
+                                </td>
+                                <td>
+                                    <%= persona.edad %>
+                                </td>
+                                <td>
+                                    <%= persona.email %>
+                                </td>
+                                <td>
+                                    <%= persona.telefono %>
+                                </td>
+                                <td>
+                                    <%= persona.fechaNacimiento %>
+                                </td>
+                                <td>
+                                    <%= persona.genero %>
+                                </td>
+                                <td>
+                                    <% persona.mascotas.forEach(mascota=> { %>
+                                        <div><b>
+                                                <%= mascota.tipo%>:
+                                            </b>
+                                            <%= mascota.nombre %>
+                                        </div>
+                                        <% }) %>
+                                </td>
+                                <td>
+                                    <a href="/personas/<%=persona.id%>/edit" class="btn btn-primary">Editar</a>
+                                </td>
+                                <td>
+                                    <form method="post" action="/personas/<%=persona.id%>/delete"
+                                        onsubmit="return confirm('Está seguro?')">
+                                        <input class="btn btn-danger" type="submit" value="Eliminar" />
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%- include('../components/footer.ejs') %>
