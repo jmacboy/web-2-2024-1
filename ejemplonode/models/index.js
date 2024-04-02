@@ -22,4 +22,5 @@ db.mascotas.belongsTo(db.personas, {
     foreignKey: "persona_id",
     as: "persona",
 });
+db.usuarios = require("./usuario.model")(sequelize, Sequelize);
 module.exports = db;
