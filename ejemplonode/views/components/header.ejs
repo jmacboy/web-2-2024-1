@@ -41,6 +41,19 @@
                             <li><a class="dropdown-item" href="/mascotas/create">Crear Mascota</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <%= user.email %>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <form method="post" action="/logout">
+                                    <input type="submit" class="dropdown-item" value="Cerrar sesión" />
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="d-flex" role="search" method="get" action="/personas/search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">

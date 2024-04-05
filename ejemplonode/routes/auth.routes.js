@@ -4,5 +4,8 @@ module.exports = app => {
 
     router.get("/login", controller.getLogin);
     router.post("/login", controller.postLogin);
+    router.post("/logout", controller.logout);
+    router.get("/register", controller.getRegister);
+    router.post("/register", controller.postRegister);
     app.use('/', router);
 }

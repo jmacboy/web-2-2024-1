@@ -1,6 +1,16 @@
 const express = require('express');
+const session = require('express-session')
 const app = express();
 const port = 3000;
+
+//sesiones
+app.set('trust proxy', 1);
+app.use(session({
+    secret: 'su contraseña que uds quieran',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } //en prod cuando haya https usar true
+}))
 
 //configuración del engine para ejs
 app.set('view engine', 'ejs');
