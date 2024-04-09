@@ -13,6 +13,7 @@ exports.createMascota = async(req, res) => {
     res.render("mascotas/form.ejs", { mascota: null, fechaConvertida: "", personas });
 }
 exports.insertMascota = async (req, res) => {
+    // console.log("persona", req.body.persona_id);
     await db.mascotas.create({
         nombre: req.body.nombre,
         persona_id: req.body.persona_id,

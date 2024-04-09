@@ -22,6 +22,12 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+//file upload
+const fileUpload = require('express-fileupload');
+app.use(fileUpload({
+    limits: { fileSize: 10 * 1024 * 1024 },
+}));
+
 //carpetas estáticas
 app.use(express.static('public'));
 app.use(express.static('assets'));

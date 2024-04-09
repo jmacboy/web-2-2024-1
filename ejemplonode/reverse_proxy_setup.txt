@@ -1,0 +1,23 @@
+Abrir el archivo httpd.conf dentro de c:\xampp\apache\conf
+Activar los siguientes módulos removiendo el # de adelante de la línea
+ - LoadModule rewrite_module modules/mod_rewrite.so
+ - LoadModule proxy_module modules/mod_proxy.so
+ - LoadModule proxy_http_module modules/mod_proxy_http.so
+ - LoadModule proxy_connect_module modules/mod_proxy_connect.so
+ 
+Abrir el archivo httpd-vhosts.conf desde C:\xampp\apache\conf\extra
+<VirtualHost *:80>
+	ProxyRequests On
+	<Proxy>
+		Order deny,allow
+		Allow from all
+	</Proxy>
+	ProxyPass / http://ip-o-dominio.com:3000/
+	ProxyPassReverse / http://ip-o-dominio.com:3000/
+	Header set Access-Control-Allow-Origin "*"
+</VirtualHost>
+
+## http://localhost/ == http://ip-o-dominio.com:3000/
+
+
+Reiniciar apache

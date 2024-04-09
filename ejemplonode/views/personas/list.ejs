@@ -10,6 +10,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Id</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
@@ -21,11 +22,15 @@
                             <th>Mascotas</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <% personas.forEach(persona=> { %>
                             <tr>
+                                <td>
+                                    <img class="profile-picture" src="/images/personas/<%= persona.id %>.png"/>
+                                </td>
                                 <td>
                                     <%= persona.id %>
                                 </td>
@@ -61,6 +66,9 @@
                                 </td>
                                 <td>
                                     <a href="/personas/<%=persona.id%>/edit" class="btn btn-primary">Editar</a>
+                                </td>
+                                <td>
+                                    <a href="/personas/<%=persona.id%>/foto" class="btn btn-success">Foto de perfil</a>
                                 </td>
                                 <td>
                                     <form method="post" action="/personas/<%=persona.id%>/delete"

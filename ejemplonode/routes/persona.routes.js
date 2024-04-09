@@ -7,6 +7,8 @@ module.exports = app => {
     router.get("/",checkUserMiddleware, controller.listPersona);
     router.get("/create",checkUserMiddleware, controller.createPersona);
     router.post("/create",checkUserMiddleware, controller.insertPersona);
+    router.get("/:id/foto",checkUserMiddleware, controller.getFotoPerfil);
+    router.post('/:id/foto',checkUserMiddleware, controller.uploadFotoPerfil)
     router.get("/:id/edit",checkUserMiddleware, controller.editPersona);
     router.post("/:id/edit",checkUserMiddleware, controller.updatePersona);
     router.post('/:id/delete',checkUserMiddleware, controller.deletePersona);

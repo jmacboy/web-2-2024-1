@@ -65,3 +65,18 @@ exports.searchPersona = async (req, res) => {
     });
     res.render("personas/list.ejs", { personas: personas });
 }
+exports.getFotoPerfil = async (req, res) => {
+    const persona = await db.personas.findByPk(req.params.id);
+    res.render("personas/profilepicture.ejs", { persona: persona });
+}
+exports.uploadFotoPerfil = async (req, res) => {
+    const persona = await db.personas.findByPk(req.params.id);
+    const imagen = req.files?.foto;
+    if(!imagen){
+        res.redirect("/personas");
+        return;
+    }
+    const nombreArchivo = `${persona.id}.png`;
+    imagen.mv(__dirname + `/../public/images/personas/${nombreArchivo}`);
+    res.redirect("/personas");
+}
