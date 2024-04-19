@@ -4,7 +4,11 @@ module.exports = app => {
     let router = require("express").Router();
 
     router.get("/", controller.listPersonas);
+    router.get("/:id", controller.getPersona);
     router.post("/", controller.createPersona);
+    router.put("/:id", controller.updatePersona);
+    router.patch("/:id", controller.updatePersona);
     router.delete("/:id", controller.deletePersona);
+
     app.use('/api/personas', router);
 }
