@@ -9,6 +9,7 @@ module.exports = app => {
     router.put("/:id", controller.updatePersona);
     router.patch("/:id", controller.updatePersona);
     router.delete("/:id", controller.deletePersona);
+    router.post("/:id/profilepicture", controller.uploadProfilePicture);
 
     app.use('/api/personas', router);
 }

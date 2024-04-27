@@ -2,6 +2,6 @@ module.exports = {
     HOST: "localhost",
     USER: "root",
     PASSWORD: "",
-    DB: "pruebaweb2",
+    DB: "pruebaweb21",
     dialect: "mysql",
 }

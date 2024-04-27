@@ -82,3 +82,15 @@ exports.deletePersona = async (req, res) => {
         sendError500(res);
     }
 }
+exports.uploadProfilePicture = async (req, res) => {
+    const persona = await db.personas.findByPk(req.params.id);
+    const imagen = req.files?.foto;
+    if(!imagen){
+        res.status(400).send({ message: "El campo foto es requerido" });
+        return;
+    }
+    const nombreArchivo = `${persona.id}.png`;
+    // eslint-disable-next-line no-undef
+    imagen.mv(__dirname + `/../public/images/personas/${nombreArchivo}`);
+    res.send({ message: "Foto subida correctamente" });
+}

@@ -20,6 +20,13 @@ module.exports = (sequelize, Sequelize) => {
         },
         genero: {
             type: Sequelize.INTEGER
+        },
+        imageUrl: {
+            type: Sequelize.VIRTUAL,
+            get: function () {
+                // eslint-disable-next-line no-undef
+                return process.env.BASE_URL + 'images/personas/' + this.getDataValue('id') + '.png';
+            }
         }
     })
     return Persona;

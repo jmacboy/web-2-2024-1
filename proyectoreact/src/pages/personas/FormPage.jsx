@@ -1,21 +1,30 @@
 import { useState } from "react";
-import LabelBS from "./LabelBS";
+import LabelBS from "../../components/LabelBS";
+import axios from "axios";
 
 const FormPage = () => {
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
-    const [ciudad, setCiudad] = useState('')
+    const [email, setEmail] = useState('')
     const [edad, setEdad] = useState('')
     const [fechaNacimiento, setFechaNacimiento] = useState('')
+    const [telefono, setTelefono] = useState('')
+    const [genero, setGenero] = useState('1')
     const enviarDatos = (e) => {
         e.preventDefault();
-        console.log({
+        const persona = {
             nombre,
             apellido,
-            ciudad,
+            email,
             edad,
-            fechaNacimiento
-        })
+            fechaNacimiento,
+            telefono,
+            genero
+        }
+        axios.post('http://localhost:3000/api/personas', persona)
+            .then((response) => {
+                console.log(response.data)
+            })
     }
     return (
         <form>
@@ -32,9 +41,15 @@ const FormPage = () => {
                 }} />
             </div>
             <div>
-                <LabelBS text="Ciudad" />
-                <input type="text" onChange={(e) => {
-                    setCiudad(e.target.value)
+                <LabelBS text="Email" />
+                <input type="email" value={email} onChange={(e) => {
+                    setEmail(e.target.value)
+                }} />
+            </div>
+            <div>
+                <LabelBS text="Teléfono" />
+                <input type="text" value={telefono} onChange={(e) => {
+                    setTelefono(e.target.value)
                 }} />
             </div>
             <div>
@@ -48,6 +63,16 @@ const FormPage = () => {
                 <input type="date" onChange={(e) => {
                     setFechaNacimiento(e.target.value)
                 }} />
+            </div>
+            <div>
+                <LabelBS text="Género" />
+                <select onChange={(e) => {
+                    setGenero(e.target.value)
+                }}>
+                    <option value="1">Masculino</option>
+                    <option value="-1">Femenino</option>
+                    <option value="0">Indefinido</option>
+                </select>
             </div>
             <div>
                 Tu nombre es: {nombre}  {apellido}
