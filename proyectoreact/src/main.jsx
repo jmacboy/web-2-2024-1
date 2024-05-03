@@ -4,7 +4,7 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import PersonaList from './pages/personas/PersonaList.jsx';
 import FormPage from './pages/personas/FormPage.jsx';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/personas/create",
+    element: <FormPage/>
+  },
+  {
+    path: "/personas/:id",
     element: <FormPage/>
   }
 ]);

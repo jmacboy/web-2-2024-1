@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LabelBS from "../../components/LabelBS";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FormPage = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')
     const [email, setEmail] = useState('')
@@ -10,6 +13,25 @@ const FormPage = () => {
     const [fechaNacimiento, setFechaNacimiento] = useState('')
     const [telefono, setTelefono] = useState('')
     const [genero, setGenero] = useState('1')
+
+    useEffect(() => {
+        if (!id) return;
+        fetchPersona();
+    }, [id])
+    const fetchPersona = () => {
+        axios.get(import.meta.env.VITE_BASE_URL + 'personas/' + id)
+            .then((res) => {
+                const persona = res.data;
+                setNombre(persona.nombre);
+                setApellido(persona.apellido);
+                setEmail(persona.email);
+                setEdad(persona.edad);
+                setFechaNacimiento(persona.fechaNacimiento.substring(0, 10));
+                setTelefono(persona.telefono);
+                setGenero(persona.genero);
+            });
+    }
+
     const enviarDatos = (e) => {
         e.preventDefault();
         const persona = {
@@ -21,22 +43,30 @@ const FormPage = () => {
             telefono,
             genero
         }
-        axios.post('http://localhost:3000/api/personas', persona)
-            .then((response) => {
-                console.log(response.data)
-            })
+        if (id) {
+            axios.put(import.meta.env.VITE_BASE_URL + 'personas/' + id, persona)
+                .then(() => {
+                    navigate('/')
+                })
+        } else {
+            axios.post(import.meta.env.VITE_BASE_URL + 'personas', persona)
+                .then(() => {
+                    navigate('/')
+                })
+        }
     }
+
     return (
         <form>
             <div>
                 <LabelBS text="Nombre" />
-                <input type="text" onChange={(e) => {
+                <input type="text" value={nombre} onChange={(e) => {
                     setNombre(e.target.value)
                 }} />
             </div>
             <div>
                 <LabelBS text="Apellido" />
-                <input type="text" onChange={(e) => {
+                <input type="text" value={apellido} onChange={(e) => {
                     setApellido(e.target.value)
                 }} />
             </div>
@@ -54,13 +84,13 @@ const FormPage = () => {
             </div>
             <div>
                 <LabelBS text="Edad" />
-                <input type="number" onChange={(e) => {
+                <input type="number" value={edad} onChange={(e) => {
                     setEdad(e.target.value)
                 }} />
             </div>
             <div>
                 <LabelBS text="Fecha de Nacimiento" />
-                <input type="date" onChange={(e) => {
+                <input type="date" value={fechaNacimiento} onChange={(e) => {
                     setFechaNacimiento(e.target.value)
                 }} />
             </div>
