@@ -7,7 +7,8 @@ exports.checkRequiredFields = (requiredFields, body) => {
     }
     return fieldsWithErrors;
 }
-exports.sendError500 = (res) => {
+exports.sendError500 = (res, error) => {
+    console.log("Error", error);
     res.status(500).send({
         message: "Ocurrió un error"
     });

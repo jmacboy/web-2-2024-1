@@ -7,21 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER
         },
         tipo: {
-            type: Sequelize.INTEGER,
-            get() {
-                switch (this.getDataValue('tipo')) {
-                    case 0:
-                        return 'Perro';
-                    case 1:
-                        return 'Gato';
-                    case 2:
-                        return 'Loro';
-                    case 3:
-                        return "Capibara";
-                    default:
-                        return 'No definido';
-                }
-            }
+            type: Sequelize.INTEGER
         }
     })
     return Mascota;

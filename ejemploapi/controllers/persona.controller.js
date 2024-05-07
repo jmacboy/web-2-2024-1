@@ -6,7 +6,7 @@ exports.listPersonas = async (req, res) => {
         const personas = await db.personas.findAll();
         res.send(personas);
     } catch (error) {
-        sendError500(res);
+        sendError500(res, error);
     }
 }
 exports.getPersona = async (req, res) => {
@@ -19,7 +19,7 @@ exports.getPersona = async (req, res) => {
         }
         res.send(persona);
     } catch (error) {
-        sendError500(res);
+        sendError500(res, error);
     }
 }
 exports.createPersona = async (req, res) => {
@@ -37,7 +37,7 @@ exports.createPersona = async (req, res) => {
         const persona = await db.personas.create(req.body);
         res.send(persona);
     } catch (error) {
-        sendError500(res);
+        sendError500(res, error);
     }
 }
 exports.updatePersona = async (req, res) => {
@@ -64,7 +64,7 @@ exports.updatePersona = async (req, res) => {
         await persona.update(req.body);
         res.send(persona);
     } catch (error) {
-        sendError500(res);
+        sendError500(res, error);
     }
 }
 exports.deletePersona = async (req, res) => {
@@ -79,7 +79,7 @@ exports.deletePersona = async (req, res) => {
         await persona.destroy();
         res.send({ message: "Persona eliminada correctamente" });
     } catch (error) {
-        sendError500(res);
+        sendError500(res, error);
     }
 }
 exports.uploadProfilePicture = async (req, res) => {
