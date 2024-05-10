@@ -1,7 +1,12 @@
 import { Button, Container, Form, Nav, NavDropdown, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Menu = () => {
+    const navigate = useNavigate();
+    const cerrarSesionClicked = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
     return (
         <Navbar bg="dark" data-bs-theme="dark" expand="md">
             <Container>
@@ -10,17 +15,18 @@ const Menu = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavDropdown title="Personas" id="basic-nav-dropdown">
-                            <NavLink end  className={"dropdown-item"} to="/personas/create" >Crear Persona</NavLink>
+                            <NavLink end className={"dropdown-item"} to="/personas/create" >Crear Persona</NavLink>
                             <NavLink end className={"dropdown-item"} to="/personas">
                                 Lista de Personas
                             </NavLink>
                         </NavDropdown>
                         <NavDropdown title="Mascotas" id="basic-nav-dropdown">
-                            <NavLink end  className={"dropdown-item"} to="/mascotas/create" >Crear Mascota</NavLink>
-                            <NavLink end  className={"dropdown-item"} to="/mascotas">
+                            <NavLink end className={"dropdown-item"} to="/mascotas/create" >Crear Mascota</NavLink>
+                            <NavLink end className={"dropdown-item"} to="/mascotas">
                                 Lista de Mascotas
                             </NavLink>
                         </NavDropdown>
+                        <Button onClick={cerrarSesionClicked} variant="link">Cerrar sesión</Button>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control

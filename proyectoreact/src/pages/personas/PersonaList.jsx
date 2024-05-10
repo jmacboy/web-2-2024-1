@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu";
 import { getGeneroForDisplay } from "../../utils/personaUtils";
 import moment from "moment";
 
 const PersonaList = () => {
+    const navigate = useNavigate();
     const [personaList, setPersonaList] = useState([])
 
     useEffect(() => {
@@ -15,9 +16,17 @@ const PersonaList = () => {
 
 
     const fetchListaPersonas = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'personas')
+        axios.get(import.meta.env.VITE_BASE_URL + 'personas', {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
             .then((res) => {
                 setPersonaList(res.data);
+            }).catch((error) => {
+                if(error.response.status === 401) {
+                    navigate('/login');
+                }
             });
     }
     const deletePersona = (id) => {
@@ -30,7 +39,7 @@ const PersonaList = () => {
     }
     return (
         <>
-            <Menu/>
+            <Menu />
             <Container>
                 <Row className="mt-3">
                     <Col>

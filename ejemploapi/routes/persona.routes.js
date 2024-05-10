@@ -1,10 +1,11 @@
+const { checkUserMiddleware } = require("../middlewares/check-user.middleware.js");
 
 module.exports = app => {
     const controller = require("../controllers/persona.controller.js");
     let router = require("express").Router();
 
-    router.get("/", controller.listPersonas);
-    router.get("/:id", controller.getPersona);
+    router.get("/", checkUserMiddleware, controller.listPersonas);
+    router.get("/:id", checkUserMiddleware, controller.getPersona);
     router.post("/", controller.createPersona);
     router.put("/:id", controller.updatePersona);
     router.patch("/:id", controller.updatePersona);

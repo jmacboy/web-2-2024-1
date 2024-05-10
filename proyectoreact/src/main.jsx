@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PersonaForm from './pages/personas/PersonaForm.jsx';
 import MascotaForm from './pages/mascotas/MascotaForm.jsx';
 import MascotaList from './pages/mascotas/MascotaList.jsx';
+import LoginForm from './pages/auth/LoginForm.jsx';
 const router = createBrowserRouter([
   {
     path: "/personas",
@@ -31,6 +32,9 @@ const router = createBrowserRouter([
   {
     path: "/mascotas/:id",
     element: <MascotaForm/>
+  },{
+    path: "/login",
+    element: <LoginForm/>
   }
 ]);
 

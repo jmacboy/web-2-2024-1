@@ -23,4 +23,10 @@ db.mascotas.belongsTo(db.personas, {
     as: "persona",
 });
 db.usuarios = require("./usuario.model")(sequelize, Sequelize);
+db.tokens = require("./usuarioauth.model")(sequelize, Sequelize);
+db.usuarios.hasMany(db.tokens, { as: "tokens", foreignKey: "usuario_id", onDelete: "CASCADE"});
+db.tokens.belongsTo(db.usuarios, {
+    foreignKey: "usuario_id",
+    as: "usuario",
+});
 module.exports = db;

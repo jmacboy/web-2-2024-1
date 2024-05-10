@@ -22,7 +22,11 @@ const PersonaForm = () => {
         fetchPersona();
     }, [id])
     const fetchPersona = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'personas/' + id)
+        axios.get(import.meta.env.VITE_BASE_URL + 'personas/' + id, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
             .then((res) => {
                 const persona = res.data;
                 setNombre(persona.nombre);
@@ -32,6 +36,10 @@ const PersonaForm = () => {
                 setFechaNacimiento(moment.utc(persona.fechaNacimiento).format('YYYY-MM-DD'));
                 setTelefono(persona.telefono);
                 setGenero(persona.genero);
+            }).catch((error) => {
+                if(error.response.status === 401) {
+                    navigate('/login');
+                }
             });
     }
 

@@ -2,6 +2,7 @@ const db = require("../models");
 const { checkRequiredFields, sendError500 } = require("../utils/request.utils");
 
 exports.listPersonas = async (req, res) => {
+    console.log("Usuario actual", res.locals.user.email)
     try {
         const personas = await db.personas.findAll();
         res.send(personas);
