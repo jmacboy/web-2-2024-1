@@ -4,7 +4,13 @@ const { checkRequiredFields, sendError500 } = require("../utils/request.utils");
 exports.listPersonas = async (req, res) => {
     console.log("Usuario actual", res.locals.user.email)
     try {
-        const personas = await db.personas.findAll();
+        const personas = await db.personas.findAll(
+            {
+                include: [
+                    "mascotas"
+                ]
+            }
+        );
         res.send(personas);
     } catch (error) {
         sendError500(res, error);
@@ -94,4 +100,17 @@ exports.uploadProfilePicture = async (req, res) => {
     // eslint-disable-next-line no-undef
     imagen.mv(__dirname + `/../public/images/personas/${nombreArchivo}`);
     res.send({ message: "Foto subida correctamente" });
+}
+exports.getMascotasByPersona = async (req, res) => {
+    const personaId = req.params.id;
+    try {
+        const mascotas = await db.mascotas.findAll({
+            where: {
+                persona_id: personaId
+            }
+        });
+        res.send(mascotas);
+    } catch (error) {
+        sendError500(res, error);
+    }
 }

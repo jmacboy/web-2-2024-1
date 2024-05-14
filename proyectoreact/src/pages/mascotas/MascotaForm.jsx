@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import LabelBS from "../../components/LabelBS";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Menu from "../../components/Menu";
 import { Button, Card, Col, Container, FormControl, FormSelect, Row } from "react-bootstrap";
+import { getMascotaById, insertMascota, updateMascota } from "../../services/MascotaService";
+import { getPersonaList } from "../../services/PersonaService";
 
 const MascotaForm = () => {
     const { id } = useParams();
@@ -23,16 +24,16 @@ const MascotaForm = () => {
         fetchMascota();
     }, [id])
     const fetchListaPersonas = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'personas')
+        getPersonaList()
             .then((res) => {
-                setListaPersonas(res.data);
-                if (res.data.length > 0) {
-                    setPersonaId(res.data[0].id);
+                setListaPersonas(res);
+                if (res.length > 0) {
+                    setPersonaId(res[0].id);
                 }
             });
     }
     const fetchMascota = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'mascotas/' + id)
+        getMascotaById(id)
             .then((res) => {
                 const mascota = res.data;
                 setNombre(mascota.nombre);
@@ -49,12 +50,12 @@ const MascotaForm = () => {
             tipo,
         }
         if (id) {
-            axios.put(import.meta.env.VITE_BASE_URL + 'mascotas/' + id, mascota)
+            updateMascota(id, mascota)
                 .then(() => {
                     navigate('/mascotas')
                 })
         } else {
-            axios.post(import.meta.env.VITE_BASE_URL + 'mascotas', mascota)
+            insertMascota(mascota)
                 .then(() => {
                     navigate('/mascotas')
                 })

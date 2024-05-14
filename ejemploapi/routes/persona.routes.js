@@ -6,11 +6,12 @@ module.exports = app => {
 
     router.get("/", checkUserMiddleware, controller.listPersonas);
     router.get("/:id", checkUserMiddleware, controller.getPersona);
-    router.post("/", controller.createPersona);
-    router.put("/:id", controller.updatePersona);
-    router.patch("/:id", controller.updatePersona);
-    router.delete("/:id", controller.deletePersona);
-    router.post("/:id/profilepicture", controller.uploadProfilePicture);
+    router.post("/", checkUserMiddleware, controller.createPersona);
+    router.put("/:id", checkUserMiddleware, controller.updatePersona);
+    router.patch("/:id", checkUserMiddleware, controller.updatePersona);
+    router.delete("/:id", checkUserMiddleware, controller.deletePersona);
+    router.post("/:id/profilepicture", checkUserMiddleware, controller.uploadProfilePicture);
+    router.get("/:id/mascotas", checkUserMiddleware, controller.getMascotasByPersona);
 
     app.use('/api/personas', router);
 }

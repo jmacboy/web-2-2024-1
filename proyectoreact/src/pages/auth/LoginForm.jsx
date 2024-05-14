@@ -1,9 +1,9 @@
 import { useState } from "react";
 import LabelBS from "../../components/LabelBS";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Menu from "../../components/Menu";
 import { Button, Card, Col, Container, FormControl, Row } from "react-bootstrap";
+import { postLogin } from "../../services/AuthService";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -12,14 +12,15 @@ const LoginForm = () => {
 
     const enviarDatos = (e) => {
         e.preventDefault();
-        const persona = {
+        const credentials = {
             email,
             password
         }
 
-        axios.post(import.meta.env.VITE_BASE_URL + 'login', persona)
+        postLogin(credentials)
             .then((res) => {
-                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('token', res.token)
+                localStorage.setItem('username', email)
                 navigate('/personas')
             })
     }

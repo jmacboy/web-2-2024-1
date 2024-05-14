@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import LabelBS from "../../components/LabelBS";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Menu from "../../components/Menu";
 import { Button, Card, Col, Container, FormControl, FormSelect, Row } from "react-bootstrap";
 import moment from "moment";
+import { getPersonaById, insertPersona, updatePersona } from "../../services/PersonaService";
 
 const PersonaForm = () => {
     const { id } = useParams();
@@ -22,25 +22,15 @@ const PersonaForm = () => {
         fetchPersona();
     }, [id])
     const fetchPersona = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'personas/' + id, {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-            .then((res) => {
-                const persona = res.data;
-                setNombre(persona.nombre);
-                setApellido(persona.apellido);
-                setEmail(persona.email);
-                setEdad(persona.edad);
-                setFechaNacimiento(moment.utc(persona.fechaNacimiento).format('YYYY-MM-DD'));
-                setTelefono(persona.telefono);
-                setGenero(persona.genero);
-            }).catch((error) => {
-                if(error.response.status === 401) {
-                    navigate('/login');
-                }
-            });
+        getPersonaById(id).then((persona) => {
+            setNombre(persona.nombre);
+            setApellido(persona.apellido);
+            setEmail(persona.email);
+            setEdad(persona.edad);
+            setFechaNacimiento(moment.utc(persona.fechaNacimiento).format('YYYY-MM-DD'));
+            setTelefono(persona.telefono);
+            setGenero(persona.genero.toString());
+        });
     }
 
     const enviarDatos = (e) => {
@@ -55,15 +45,13 @@ const PersonaForm = () => {
             genero
         }
         if (id) {
-            axios.put(import.meta.env.VITE_BASE_URL + 'personas/' + id, persona)
-                .then(() => {
-                    navigate('/personas')
-                })
+            updatePersona(id, persona).then(() => {
+                navigate('/personas')
+            });
         } else {
-            axios.post(import.meta.env.VITE_BASE_URL + 'personas', persona)
-                .then(() => {
-                    navigate('/personas')
-                })
+            insertPersona(persona).then(() => {
+                navigate('/personas');
+            });
         }
     }
 
@@ -79,7 +67,7 @@ const PersonaForm = () => {
                                     <h1>Formulario de Personas</h1>
                                 </Card.Title>
                                 <form>
-                                <div>
+                                    <div>
                                         <LabelBS text="Nombre" />
                                         <FormControl type="text" value={nombre} onChange={(e) => {
                                             setNombre(e.target.value)
@@ -121,8 +109,8 @@ const PersonaForm = () => {
                                             setGenero(e.target.value)
                                         }}>
                                             <option value="1">Masculino</option>
-                                            <option value="-1">Femenino</option>
-                                            <option value="0">Indefinido</option>
+                                            <option value="0">Femenino</option>
+                                            <option value="-1">Indefinido</option>
                                         </FormSelect>
                                     </div>
                                     <div className="mt-2">

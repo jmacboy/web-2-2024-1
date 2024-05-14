@@ -3,8 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const Menu = () => {
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
     const cerrarSesionClicked = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('username')
+
         navigate('/login');
     }
     return (
@@ -14,21 +18,28 @@ const Menu = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <NavDropdown title="Personas" id="basic-nav-dropdown">
-                            <NavLink end className={"dropdown-item"} to="/personas/create" >Crear Persona</NavLink>
-                            <NavLink end className={"dropdown-item"} to="/personas">
-                                Lista de Personas
-                            </NavLink>
-                        </NavDropdown>
-                        <NavDropdown title="Mascotas" id="basic-nav-dropdown">
-                            <NavLink end className={"dropdown-item"} to="/mascotas/create" >Crear Mascota</NavLink>
-                            <NavLink end className={"dropdown-item"} to="/mascotas">
-                                Lista de Mascotas
-                            </NavLink>
-                        </NavDropdown>
-                        <Button onClick={cerrarSesionClicked} variant="link">Cerrar sesión</Button>
+                        {token ? <>
+                            <NavDropdown title="Personas" id="basic-nav-dropdown">
+                                <NavLink end className={"dropdown-item"} to="/personas/create" >Crear Persona</NavLink>
+                                <NavLink end className={"dropdown-item"} to="/personas">
+                                    Lista de Personas
+                                </NavLink>
+                            </NavDropdown>
+                            <NavDropdown title="Mascotas" id="basic-nav-dropdown">
+                                <NavLink end className={"dropdown-item"} to="/mascotas/create" >Crear Mascota</NavLink>
+                                <NavLink end className={"dropdown-item"} to="/mascotas">
+                                    Lista de Mascotas
+                                </NavLink>
+                            </NavDropdown>
+                            <NavLink className={"nav-link"}>{username}</NavLink>
+                            <button onClick={cerrarSesionClicked} className="btn btn-link nav-link">Cerrar sesión</button>
+                        </> : <>
+                            <NavLink end className={"nav-link"} to="/login">Iniciar sesión</NavLink>
+                            <NavLink end className={"nav-link"} to="/register">Registrarse</NavLink>
+                        </>}
+
                     </Nav>
-                    <Form className="d-flex">
+                    {token && <Form className="d-flex">
                         <Form.Control
                             type="search"
                             placeholder="Search"
@@ -36,7 +47,7 @@ const Menu = () => {
                             aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
-                    </Form>
+                    </Form>}
                 </Navbar.Collapse>
             </Container>
 

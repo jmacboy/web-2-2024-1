@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Menu from "../../components/Menu";
 import { getTipoForDisplay } from "../../utils/mascotaUtils";
+import { deleteMascota, getMascotaList } from "../../services/MascotaService";
 
 const MascotaList = () => {
     const [mascotaList, setMascotaList] = useState([])
@@ -14,22 +14,21 @@ const MascotaList = () => {
 
 
     const fetchListaMascotas = () => {
-        axios.get(import.meta.env.VITE_BASE_URL + 'mascotas')
+        getMascotaList()
             .then((res) => {
-                setMascotaList(res.data);
+                setMascotaList(res);
             });
     }
-    const deleteMascota = (id) => {
+    const removeMascota = (id) => {
         const confirmation = window.confirm('¿Estás seguro de eliminar esta mascota?');
         if (!confirmation) return;
-        axios.delete(import.meta.env.VITE_BASE_URL + 'mascotas/' + id)
-            .then(() => {
-                fetchListaMascotas();
-            });
+        deleteMascota(id).then(() => {
+            fetchListaMascotas();
+        });
     }
     return (
         <>
-            <Menu/>
+            <Menu />
             <Container>
                 <Row className="mt-3">
                     <Col>
@@ -58,7 +57,7 @@ const MascotaList = () => {
                                                 <td>{getTipoForDisplay(mascota.tipo)}</td>
                                                 <td><Link className="btn btn-primary" to={"/mascotas/" + mascota.id}>Editar</Link></td>
                                                 <td>
-                                                    <Button variant="danger" onClick={() => deleteMascota(mascota.id)}>
+                                                    <Button variant="danger" onClick={() => removeMascota(mascota.id)}>
                                                         Eliminar
                                                     </Button>
                                                 </td>

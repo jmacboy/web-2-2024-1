@@ -8,33 +8,45 @@ import PersonaForm from './pages/personas/PersonaForm.jsx';
 import MascotaForm from './pages/mascotas/MascotaForm.jsx';
 import MascotaList from './pages/mascotas/MascotaList.jsx';
 import LoginForm from './pages/auth/LoginForm.jsx';
+import RegisterForm from './pages/auth/RegisterForm.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Page404 from './pages/Page404.jsx';
 const router = createBrowserRouter([
+  { path: "/", element: <Dashboard /> },
   {
     path: "/personas",
-    element: <PersonaList/>,
+    element: <PersonaList />,
   },
   {
     path: "/personas/create",
-    element: <PersonaForm/>
+    element: <PersonaForm />
   },
   {
     path: "/personas/:id",
-    element: <PersonaForm/>
+    element: <PersonaForm />
   },
   {
     path: "/mascotas",
-    element: <MascotaList/>,
+    element: <MascotaList />,
   },
   {
     path: "/mascotas/create",
-    element: <MascotaForm/>
+    element: <MascotaForm />
   },
   {
     path: "/mascotas/:id",
-    element: <MascotaForm/>
-  },{
+    element: <MascotaForm />
+  }, {
     path: "/login",
-    element: <LoginForm/>
+    element: <LoginForm />
+  },
+  {
+    path: "/register",
+    element: <RegisterForm />
+  },
+  {
+    path: "*",
+    element: <Page404 />
   }
 ]);
 
