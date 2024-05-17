@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
         genero: {
             type: Sequelize.INTEGER
         },
+        usuario_id:{
+            type: Sequelize.INTEGER
+        },
         imageUrl: {
             type: Sequelize.VIRTUAL,
             get: function () {

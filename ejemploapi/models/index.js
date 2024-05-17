@@ -29,4 +29,9 @@ db.tokens.belongsTo(db.usuarios, {
     foreignKey: "usuario_id",
     as: "usuario",
 });
+db.personas.belongsTo(db.usuarios, {
+    foreignKey: "usuario_id",
+    as: "usuario",
+});
+db.usuarios.hasOne(db.personas, { as: "persona", foreignKey: "usuario_id", onDelete: "CASCADE"});
 module.exports = db;

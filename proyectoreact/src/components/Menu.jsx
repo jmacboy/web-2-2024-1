@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Button, Container, Form, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -5,12 +7,29 @@ const Menu = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
+    const [persona, setPersona] = useState(null)
     const cerrarSesionClicked = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username')
 
         navigate('/login');
     }
+    useEffect(() => {
+        if (persona) {
+            return;
+        }
+        getUserInfo();
+    }, [])
+    const getUserInfo = () => {
+        axios.get('http://localhost:3000/api/me', {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then((res) => {
+            setPersona(res.data);
+        });
+    }
+
     return (
         <Navbar bg="dark" data-bs-theme="dark" expand="md">
             <Container>
@@ -31,7 +50,7 @@ const Menu = () => {
                                     Lista de Mascotas
                                 </NavLink>
                             </NavDropdown>
-                            <NavLink className={"nav-link"}>{username}</NavLink>
+                            <NavLink className={"nav-link"}>{persona && <>{persona.nombre} {persona.apellido}</>}</NavLink>
                             <button onClick={cerrarSesionClicked} className="btn btn-link nav-link">Cerrar sesión</button>
                         </> : <>
                             <NavLink end className={"nav-link"} to="/login">Iniciar sesión</NavLink>

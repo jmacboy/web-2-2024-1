@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import LabelBS from "../../components/LabelBS";
 import { useNavigate, useParams } from "react-router-dom";
 import Menu from "../../components/Menu";
-import { Button, Card, Col, Container, FormControl, FormSelect, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, FormControl, FormGroup, FormSelect, Row } from "react-bootstrap";
 import moment from "moment";
 import { getPersonaById, insertPersona, updatePersona } from "../../services/PersonaService";
 
@@ -15,7 +15,10 @@ const PersonaForm = () => {
     const [edad, setEdad] = useState('')
     const [fechaNacimiento, setFechaNacimiento] = useState('')
     const [telefono, setTelefono] = useState('')
-    const [genero, setGenero] = useState('1')
+    const [genero, setGenero] = useState('')
+    const [usuarioId, setusuarioId] = useState('')
+    const [validated, setValidated] = useState(false);
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         if (!id) return;
@@ -30,27 +33,49 @@ const PersonaForm = () => {
             setFechaNacimiento(moment.utc(persona.fechaNacimiento).format('YYYY-MM-DD'));
             setTelefono(persona.telefono);
             setGenero(persona.genero.toString());
+            setusuarioId(persona.usuario_id);
         });
     }
 
     const enviarDatos = (e) => {
+
+        const form = e.currentTarget;
+        let isValid = form.checkValidity();
+
         e.preventDefault();
+        e.stopPropagation();
+
+        setValidated(true);
+
+        if (!isValid) {
+            return;
+        }
+        savePersona();
+    }
+    const savePersona = () => {
         const persona = {
             nombre,
             apellido,
-            email,
+             email,
             edad,
             fechaNacimiento,
             telefono,
-            genero
+            genero,
+            usuario_id: usuarioId
         }
         if (id) {
             updatePersona(id, persona).then(() => {
                 navigate('/personas')
+            }).catch((err) => {
+                console.log(err);
+                setErrors({ ...errors, formError: 'Error al actualizar persona, intente nuevamente' })
             });
         } else {
             insertPersona(persona).then(() => {
                 navigate('/personas');
+            }).catch((err) => {
+                console.log(err);
+                setErrors({ ...errors, formError: 'Error al insertar persona, intente nuevamente' })
             });
         }
     }
@@ -66,57 +91,73 @@ const PersonaForm = () => {
                                 <Card.Title>
                                     <h1>Formulario de Personas</h1>
                                 </Card.Title>
-                                <form>
-                                    <div>
+                                <Form noValidate validated={validated} onSubmit={enviarDatos}>
+                                    {errors.formError && <p className="text-danger">{errors.formError}</p>}
+                                    <FormGroup>
                                         <LabelBS text="Nombre" />
-                                        <FormControl type="text" value={nombre} onChange={(e) => {
+                                        <FormControl required type="text" value={nombre} onChange={(e) => {
                                             setNombre(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">El nombre es requerido</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Apellido" />
-                                        <FormControl type="text" value={apellido} onChange={(e) => {
+                                        <FormControl required type="text" value={apellido} onChange={(e) => {
                                             setApellido(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">El apellido es requerido</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Email" />
-                                        <FormControl type="email" value={email} onChange={(e) => {
+                                        <FormControl required type="email" value={email} onChange={(e) => {
                                             setEmail(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">El email es requerido</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Teléfono" />
-                                        <FormControl type="text" value={telefono} onChange={(e) => {
+                                        <FormControl required type="text" value={telefono} onChange={(e) => {
                                             setTelefono(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">El teléfono es requerido</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Edad" />
-                                        <FormControl type="number" value={edad} onChange={(e) => {
+                                        <FormControl required type="number" value={edad} onChange={(e) => {
                                             setEdad(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">La edad es requerida</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Fecha de Nacimiento" />
-                                        <FormControl type="date" value={fechaNacimiento} onChange={(e) => {
+                                        <FormControl required type="date" value={fechaNacimiento} onChange={(e) => {
                                             setFechaNacimiento(e.target.value)
                                         }} />
-                                    </div>
-                                    <div className="mt-2">
+                                        <Form.Control.Feedback type="invalid">La fecha de nacimiento es requerida</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
                                         <LabelBS text="Género" />
-                                        <FormSelect value={genero} onChange={(e) => {
+                                        <FormSelect required value={genero} onChange={(e) => {
                                             setGenero(e.target.value)
                                         }}>
+                                            <option value=""></option>
                                             <option value="1">Masculino</option>
                                             <option value="0">Femenino</option>
                                             <option value="-1">Indefinido</option>
                                         </FormSelect>
-                                    </div>
+                                        <Form.Control.Feedback type="invalid">El género es requerido</Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup className="mt-2">
+                                        <LabelBS text="Usuario" />
+                                        <FormControl required type="number" value={usuarioId} onChange={(e) => {
+                                            setusuarioId(e.target.value)
+                                        }} />
+                                        <Form.Control.Feedback type="invalid">Ingrese el id del usuario</Form.Control.Feedback>
+                                    </FormGroup>
                                     <div className="mt-2">
-                                        <Button onClick={enviarDatos}>Guardar</Button>
+                                        <Button type="submit">Guardar</Button>
                                     </div>
-                                </form>
+                                </Form>
                             </Card.Body>
                         </Card>
                     </Col>

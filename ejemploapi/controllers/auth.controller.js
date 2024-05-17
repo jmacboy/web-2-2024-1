@@ -62,3 +62,12 @@ exports.registerUser = async (req, res) => {
     usuario.password = undefined;
     res.send(usuario);
 }
+exports.me = async (req, res) => {
+    console.log("Usuario actual", res.locals.user)
+    const persona = await db.personas.findOne({
+        where: {
+            usuario_id: res.locals.user.id
+        }
+    });
+    res.send(persona);
+}

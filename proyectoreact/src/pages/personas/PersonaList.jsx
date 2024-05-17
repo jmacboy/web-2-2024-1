@@ -49,6 +49,7 @@ const PersonaList = () => {
                                             <th>Edad</th>
                                             <th>Fecha de Nacimiento</th>
                                             <th>Género</th>
+                                            <th>Usuario</th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -65,6 +66,8 @@ const PersonaList = () => {
                                                 <td>{persona.edad}</td>
                                                 <td>{moment.utc(persona.fechaNacimiento).format("DD/MM/YYYY")}</td>
                                                 <td>{getGeneroForDisplay(persona.genero)}</td>
+                                                <td>{persona.usuario_id}</td>
+                                                
                                                 <td>
                                                     {persona.mascotas.map((mascota) =>
                                                         <div key={"mascota-" + mascota.id}>
