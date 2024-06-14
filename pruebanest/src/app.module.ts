@@ -5,6 +5,9 @@ import { PersonasController } from "./personas/personas.controller";
 import { PersonasService } from "./personas/personas.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Persona } from "./personas/dto/Persona";
+import { Mascota } from "./mascotas/dto/Mascota";
+import { MascotasController } from "./mascotas/mascotas.controller";
+import { MascotasService } from "./mascotas/mascotas.service";
 
 @Module({
     imports: [
@@ -15,12 +18,12 @@ import { Persona } from "./personas/dto/Persona";
             username: "root",
             password: "",
             database: "pruebanest",
-            entities: [Persona],
+            entities: [Persona, Mascota],
             synchronize: true, //esto es solo para desarrollo
         }),
-        TypeOrmModule.forFeature([Persona]),
+        TypeOrmModule.forFeature([Persona, Mascota]),
     ],
-    controllers: [AppController, PersonasController],
-    providers: [AppService, PersonasService],
+    controllers: [AppController, PersonasController, MascotasController],
+    providers: [AppService, PersonasService, MascotasService],
 })
 export class AppModule {}

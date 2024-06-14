@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Mascota } from "../../mascotas/dto/Mascota";
 
 @Entity()
 export class Persona {
@@ -19,4 +20,7 @@ export class Persona {
 
     @Column()
     fechaNacimiento: Date;
+
+    @OneToMany(() => Mascota, mascota => mascota.persona)
+    mascotas?: Mascota[];
 }

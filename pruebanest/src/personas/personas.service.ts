@@ -22,4 +22,11 @@ export class PersonasService {
     insertPersona(persona: Persona): Promise<Persona> {
         return this.personasRepository.save(persona);
     }
+    async updatePersona(id: number, persona: Persona): Promise<Persona> {
+        await this.personasRepository.update(id, persona);
+        return this.personasRepository.findOneBy({ id });
+    }
+    async deletePersona(id: number): Promise<void> {
+        await this.personasRepository.delete(id);
+    }
 }
