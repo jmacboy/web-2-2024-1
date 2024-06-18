@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { PersonasService } from "./personas.service";
 import { Persona } from "./dto/Persona";
 import { PersonaDto } from "./dto/PersonaDto";
 import { PersonaUpdateDto } from "./dto/PersonaUpdateDto";
-
+import { FileInterceptor } from "@nestjs/platform-express";
+import { promisify } from "util";
+import { unlink } from "fs";
+import { AuthGuard } from "../auth/auth.guard";
+const unlinkAsync = promisify(unlink);
 @Controller("personas")
 export class PersonasController {
     constructor(private readonly personasService: PersonasService) {}
@@ -13,6 +17,7 @@ export class PersonasController {
     }
 
     @Get()
+    @UseGuards(AuthGuard)
     getPersonas(): Promise<Persona[]> {
         return this.personasService.getPersonaList();
     }
@@ -69,5 +74,21 @@ export class PersonasController {
             throw new NotFoundException();
         }
         return this.personasService.deletePersona(id);
+    }
+
+    @Post(":id/profile-picture")
+    @UseInterceptors(FileInterceptor("file"))
+    async profilePicture(@Param("id") id: number, @UploadedFile() file: Express.Multer.File) {
+        console.log(file);
+        const objPersona = await this.personasService.getPersonaById(id);
+        if (!objPersona) {
+            await unlinkAsync(file.path);
+            throw new NotFoundException();
+        }
+        return {
+            originalname: file.originalname,
+            filename: file.filename,
+            path: file.path,
+        };
     }
 }

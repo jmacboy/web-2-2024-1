@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Mascota } from "../../mascotas/dto/Mascota";
+import { User } from "../../users/dto/User";
 
 @Entity()
 export class Persona {
@@ -23,4 +24,7 @@ export class Persona {
 
     @OneToMany(() => Mascota, mascota => mascota.persona)
     mascotas?: Mascota[];
+
+    @OneToOne(() => User, user => user.persona)
+    user?: User;
 }

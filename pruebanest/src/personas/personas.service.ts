@@ -5,6 +5,9 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class PersonasService {
+    // getPersonaByUserId(userId: number): Promise<Persona> {
+    //     return this.personasRepository.findOne({ relations: ["user"], where: { user: { id: userId } } });
+    // }
     constructor(
         @InjectRepository(Persona)
         private personasRepository: Repository<Persona>,
