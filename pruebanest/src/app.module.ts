@@ -15,6 +15,8 @@ import { join } from "path";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { User } from "./users/dto/User";
+import { MateriasModule } from "./materias/materias.module";
+import { Materia } from "./materias/entities/materia.entity";
 
 @Module({
     imports: [
@@ -40,12 +42,13 @@ import { User } from "./users/dto/User";
             username: "root",
             password: "",
             database: "pruebanest",
-            entities: [Persona, Mascota, User],
+            entities: [Persona, Mascota, User, Materia],
             synchronize: true, //esto es solo para desarrollo
         }),
         TypeOrmModule.forFeature([Persona, Mascota]),
         AuthModule,
         UsersModule,
+        MateriasModule,
     ],
     controllers: [AppController, PersonasController, MascotasController],
     providers: [AppService, PersonasService, MascotasService],
