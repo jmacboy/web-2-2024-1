@@ -7,7 +7,9 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { promisify } from "util";
 import { unlink } from "fs";
 import { AuthGuard } from "../auth/auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 const unlinkAsync = promisify(unlink);
+@ApiTags("personas")
 @Controller("personas")
 export class PersonasController {
     constructor(private readonly personasService: PersonasService) {}
@@ -18,6 +20,7 @@ export class PersonasController {
 
     @Get()
     @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     getPersonas(): Promise<Persona[]> {
         return this.personasService.getPersonaList();
     }

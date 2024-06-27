@@ -12,6 +12,7 @@ export class AuthService {
 
     async signIn(username: string, pass: string): Promise<any> {
         const user = await this.usersService.getByEmail(username);
+        console.log(user);
         const hashedPass = stringToSha1(pass);
         if (user?.password !== hashedPass) {
             throw new UnauthorizedException();

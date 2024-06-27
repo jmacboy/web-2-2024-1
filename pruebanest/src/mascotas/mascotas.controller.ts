@@ -1,8 +1,10 @@
+import { ApiTags } from "@nestjs/swagger";
 import { Mascota } from "./dto/Mascota";
 import { MascotaDto } from "./dto/MascotaDto";
 import { MascotaUpdateDto } from "./dto/MascotaUpdateDto";
 import { MascotasService } from "./mascotas.service";
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put } from "@nestjs/common";
+@ApiTags("mascotas")
 @Controller("mascotas")
 export class MascotasController {
     constructor(private readonly mascotasService: MascotasService) {}
